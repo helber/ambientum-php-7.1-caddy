@@ -1,0 +1,16 @@
+#!/bin/bash -e
+#
+# S2I run script for the 'ah-auth' image.
+# The run script executes the server that runs your application.
+#
+# For more information see the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+/usr/local/bin/confd -node=[etcdAddr] -watch -node http://${etcdAddr-etcd}:${etcdPort-4001} &
+
+# Starts FPM
+nohup /usr/sbin/php-fpm7 -y /etc/php7/php-fpm.conf -F -O 2>&1 &
+
+# Starts caddy with the default configuration file
+/usr/local/bin/caddy -conf /home/ambientum/Caddyfile
