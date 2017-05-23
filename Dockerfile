@@ -31,7 +31,7 @@ LABEL \
 COPY ./s2i/bin/ /usr/libexec/s2i
 
 # Define the running user
-USER ambientum
+USER 1001
 
 # Application directory
 WORKDIR "/var/www/app"
